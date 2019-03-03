@@ -9,6 +9,18 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  web:
+    build: ./frontend
+    working_dir: /home/frontend
+    labels:
+      - traefik.enable=true
+      - traefik.backend=app
+      - traefik.frontend.rule=Host:app.localhost
+    environment:
+      - NODE_ENV=development   #production
+    volumes:
+      - ./frontend:/home/frontend
+
   app:
     image: thecodingmachine/php:7.2-v2-apache-node10
     labels:
@@ -21,8 +33,8 @@ services:
       PHP_EXTENSION_XDEBUG: 1
       # Symfony
       APP_ENV: dev
-      APP_SECRET: 8d2a5c935d8ef1c0e2b751147382bc75
-      DATABASE_URL: mysql://fran:fran@mysql:3307/project_db # mysql://db_user:db_password@127.0.0.1:3306/db_name
+      APP_SECRET: 78df1c5bb61fcba6b2c7373cc29ebd09
+      DATABASE_URL: mysql://fran:fran@mysql:3306/project_db # mysql://db_user:db_password@127.0.0.1:3306/db_name
     volumes:
       - ./app:/var/www/html:rw
 
@@ -38,6 +50,7 @@ services:
     volumes:
       - ./mysql_data:/var/lib/mysql
       - ./services/mysql/utf8mb4.cnf:/etc/mysql/conf.d/utf8mb4.cnf:ro
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.7
     labels:
@@ -48,7 +61,6 @@ services:
       PMA_HOST: mysql
       PMA_USER: fran
       PMA_PASSWORD: fran
-
 #volumes:
 #  mysql_data:
 #    driver: local
