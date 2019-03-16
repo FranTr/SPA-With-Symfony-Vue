@@ -1,0 +1,44 @@
+efaultEntryPoints = ["http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.https]
+  address = ":443"
+        [entryPoints.https.tls]
+  [entryPoints.api]
+  address = ":8080"
+
+[api]
+entryPoint = "api"
+
+[acme]
+entryPoint = "https"
+storage = "/etc/traefik/acme/acme.json"
+caServer = "https://acme-v02.api.letsencrypt.org/directory"
+  [acme.dnsChallenge]
+  provider = "cloudflare"
+  delayBeforeCheck = 0
+  [[acme.domains]]
+  main = "*.app.localhost"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "app.localhost"
+exposedByDefault = false
+
+[file]
+watch = true
+
+[backends]
+  [backends.backend]
+    [backends.backend.servers]
+      [backends.backend.servers.server0]
+      weight = 10
+
+[frontends]
+  [frontends.web]
+  backend = "backend"
+    [frontends.frontend.routes]
+      [frontends.frontend.routes.route0]
+      rule = "Host:frontend.app.localhost"
