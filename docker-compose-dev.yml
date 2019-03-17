@@ -1,0 +1,67 @@
+version: '3.3'
+
+services:
+  traefik:
+    image: traefik:alpine #traefik:1.7
+    ports:
+      - "8080:80"
+      - "443:443"
+      - "8081:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/traefik:/etc/traefik
+
+  client:
+    build:
+      dockerfile: docker/dev/Dockerfile
+      context: client
+    working_dir: /home/client
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:client.app.localhost
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./client:/home/client
+
+  server:
+    image: thecodingmachine/php:7.2-v2-apache-node10
+    labels:
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:client.app.localhost;PathPrefixStrip:/api/;
+    environment:
+      PHP_MEMORY_LIMIT: 1G
+      APACHE_DOCUMENT_ROOT: public/
+      PHP_EXTENSION_XDEBUG: 1
+      APP_ENV: dev
+      APP_SECRET: 78df1c5bb61fcba6b2c7373cc29ebd09
+      DATABASE_URL: mysql://fran:fran@mysql:3306/project_db # mysql://db_user:db_password@127.0.0.1:3306/db_name
+    volumes:
+      - ./server:/var/www/html:rw
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: project_db
+      MYSQL_USER: fran
+      MYSQL_PASSWORD: fran
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./services/mysql/utf8mb4.cnf:/etc/mysql/conf.d/utf8mb4.cnf:ro
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    labels:
+      - traefik.enable=true
+      - traefik.backend=phpmyadmin
+      - traefik.frontend.rule=Host:phpadmin.app.localhost
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: fran
+      PMA_PASSWORD: fran
+volumes:
+  mysql_data:
+    driver: local

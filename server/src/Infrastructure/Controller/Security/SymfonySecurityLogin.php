@@ -21,6 +21,6 @@ class SymfonySecurityLogin
      */
     public function __invoke(Request $request) :JsonResponse
     {
-        return JsonResponse::fromJsonString(json_encode(['role' => 'ROLE_FOO']));
+        return JsonResponse::fromJsonString(json_encode(['data' => ['ROLE_FOO']]));
     }
 }

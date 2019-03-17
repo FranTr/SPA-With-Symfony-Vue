@@ -14,13 +14,13 @@ services:
   client:
     build:
       context: client
-      dockerfile: Dockerfile
+      dockerfile: docker/prod/Dockerfile
     working_dir: /home/client
     labels:
       - traefik.enable=true
       - traefik.frontend.rule=Host:client.app.localhost
     environment:
-      - NODE_ENV=development #production
+      - NODE_ENV=production
     volumes:
       - ./client:/home/client
 

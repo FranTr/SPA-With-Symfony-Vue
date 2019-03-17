@@ -15,7 +15,7 @@ class JsonPostDataTransformer implements PostDataTransformer
         foreach ($posts as $post) {
             $this->data[] = [
                 "id" => $post->getId(),
-                "string" => $post->getString(),
+                "message" => $post->getString(),
                 "createdDate" => $post->getCreatedDate(),
                 "updatedDate" => $post->getUpdatedDate()
             ];

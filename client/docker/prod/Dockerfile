@@ -10,8 +10,12 @@ RUN npm run build
 # production stage
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /dist /usr/share/nginx/html
-RUN apk update && apk add bash
-RUN apk update && apk add npm
+#RUN rm /etc/nginx/conf.d/default.conf
+#COPY  ./nginx /etc/nginx/conf.d/app.conf
+RUN apk update
+RUN apk add bash
+RUN apk add npm
+RUN apk add nano
 RUN /bin/sh -c "apk add --no-cache bash"
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
