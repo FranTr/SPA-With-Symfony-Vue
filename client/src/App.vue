@@ -23,7 +23,7 @@
             <a class="nav-link">Posts</a>
           </router-link>
           <router-link class="nav-item" tag="li" to="/postsWithoutAuth" active-class="active">
-            <a class="nav-link">Posts No Auto</a>
+            <a class="nav-link">Posts No Auth</a>
           </router-link>
           <router-link class="nav-item" tag="li" to="/hello" active-class="active">
             <a class="nav-link">Hello</a>

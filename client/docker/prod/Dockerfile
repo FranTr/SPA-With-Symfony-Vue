@@ -5,13 +5,13 @@ WORKDIR .
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+#RUN npm run build
 
 # production stage
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /dist /usr/share/nginx/html
-#RUN rm /etc/nginx/conf.d/default.conf
-#COPY  ./nginx /etc/nginx/conf.d/app.conf
+RUN rm /etc/nginx/conf.d/default.conf
+COPY app.conf /etc/nginx/conf.d/
 RUN apk update
 RUN apk add bash
 RUN apk add npm

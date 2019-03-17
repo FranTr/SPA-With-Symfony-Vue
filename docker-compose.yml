@@ -21,6 +21,7 @@ services:
       - traefik.frontend.rule=Host:client.app.localhost
     environment:
       - NODE_ENV=production
+      -  npm run build
     volumes:
       - ./client:/home/client
 
