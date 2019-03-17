@@ -12,7 +12,8 @@
                         <input v-model="message" type="text" class="form-control">
                     </div>
                     <div class="col-4">
-                        <button @click="createPost()" :disabled="message.length === 0 || isLoading" type="button" class="btn btn-primary">Create</button>
+                        <button @click="createPost()" :disabled="message.length === 0 || isLoading"
+                                type="button" class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </form>
@@ -71,7 +72,7 @@ export default {
       return this.$store.getters['post/posts']
     },
     canCreatePost () {
-      return true //this.$store.getters['security/hasRole']('ROLE_FOO')
+      return this.$store.getters['security/hasRole']('ROLE_FOO')
     }
   },
   methods: {

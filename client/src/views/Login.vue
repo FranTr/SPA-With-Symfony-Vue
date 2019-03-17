@@ -34,7 +34,6 @@
 <script>
 /* eslint-disable */
     import ErrorMessage from '../components/ErrorMessage';
-    import axios from "../api/post";
 
     export default {
         name: 'login',
@@ -72,9 +71,9 @@
  methods: {
     performLogin () {
       let payload = { login: this.$data.login, password: this.$data.password },
-        redirect = this.$route.query.redirect;
-        console.log(axios.getLogin(payload));
-      this.$store.dispatch('security/login', redirect)
+          redirect = this.$route.query.redirect;
+
+      this.$store.dispatch('security/login', payload)
         .then(() => {
           if (typeof redirect !== 'undefined') {
             this.$router.push({path: redirect})

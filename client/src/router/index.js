@@ -1,15 +1,15 @@
 /* eslint-disable */
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 import store from '../store'
 import HelloWorld from '../components/HelloWorld'
 import Home from '../views/Home'
-import Posts from '../views/Posts'
 import Login from '../views/Login'
+import Posts from '../views/Posts'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
-let router = new Router({
+let router = new VueRouter({
   mode: 'history',
   routes: [
     {
@@ -20,16 +20,19 @@ let router = new Router({
       path: '/login',
       component: Login
     },
-    { path: '*', redirect: '/home' },
     { path: '/posts',
       component: Posts,
       meta: { requiresAuth: true }
+    },
+    { path: '/postsWithoutAuth',
+      component: Posts
     },
     {
       path: '/hello',
       name: 'HelloWorld',
       component: HelloWorld
-    }
+    },
+    { path: '*', redirect: '/home' }
   ]
 });
 

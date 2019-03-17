@@ -26,7 +26,7 @@ class SymfonyGetAllPosts
     }
 
     /**
-     *  @Route ("/api/posts", methods="GET")
+     *  @Route ("/posts", methods="GET")
      */
     public function __invoke() :JsonResponse
     {

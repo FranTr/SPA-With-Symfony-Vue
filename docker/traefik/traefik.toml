@@ -26,19 +26,21 @@ caServer = "https://acme-v02.api.letsencrypt.org/directory"
 endpoint = "unix:///var/run/docker.sock"
 domain = "app.localhost"
 exposedByDefault = false
-
-[file]
-watch = true
-
-[backends]
-  [backends.backend]
-    [backends.backend.servers]
-      [backends.backend.servers.server0]
-      weight = 10
-
-[frontends]
-  [frontends.web]
-  backend = "backend"
-    [frontends.frontend.routes]
-      [frontends.frontend.routes.route0]
-      rule = "Host:frontend.app.localhost"
+swarmmode = false
+#
+#[file]
+#watch = true
+#
+#[backends]
+#  [backends.server]
+#    [backends.server.servers]
+#      [backends.server.servers.server]
+#      url = "http://192.168.100.100"
+#      weight = 10
+#
+#[frontends]
+#  [frontends.client]
+#  backend = "server"
+#    [frontends.client.routes]
+#      [frontends.client.routes.client]
+#      rule = "Host:client.app.localhost"

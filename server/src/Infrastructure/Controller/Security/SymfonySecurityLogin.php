@@ -5,7 +5,6 @@ namespace App\Infrastructure\Controller\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 /**
  * Created by PhpStorm.
  * User: ward0g
@@ -16,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SymfonySecurityLogin
 {
     /**
-     * @Route ("/api/security/login", methods="GET")
+     * @Route ("/security/login", methods="POST")
      * @param Request $request
      * @return JsonResponse
      */

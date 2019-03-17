@@ -12,13 +12,4 @@ export default {
   getAll () {
     return axios.get('/api/posts')
   },
-  getLogin(payload){
-    return axios.post(
-        '/api/security/login',
-        {
-          'login' : payload.login,
-          'password' : payload.password
-        }
-    )
-  }
 }
