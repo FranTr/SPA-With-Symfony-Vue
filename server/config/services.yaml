@@ -41,5 +41,20 @@ services:
             - '@App\Infrastructure\DataTransformer\Post\JsonPostDataTransformer'
         tags: ['controller.service_arguments']
 
-    App\Infrastructure\Controller\Security\SymfonySecurityLogin:
+    App\Infrastructure\Repository\User\DoctrineUserReadRepository:
+        arguments:
+            - '@Symfony\Bridge\Doctrine\RegistryInterface'
+
+    App\Application\User\QueryHandler\ReadUserQueryHandler:
+        arguments:
+            - '@App\Infrastructure\Repository\User\DoctrineUserReadRepository'
+
+    App\Application\User\Read\ReadUser:
+        arguments:
+            - '@App\Application\User\QueryHandler\ReadUserQueryHandler'
+            - '@App\Infrastructure\Encoder\BcryptUserEncoder'
+
+    App\Infrastructure\Controller\Users\SymfonyGetUser:
+        arguments:
+            - '@App\Application\User\Read\ReadUser'
         tags: ['controller.service_arguments']

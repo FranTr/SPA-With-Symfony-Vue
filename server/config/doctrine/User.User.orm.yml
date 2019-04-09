@@ -1,0 +1,27 @@
+App\Domain\User\User:
+    type: entity
+    table: user
+    repositoryClass: App\Infrastructure\Repository\User\DoctrineUserReadRepository
+    id:
+      id:
+        type: integer
+        length: 36
+        unique: true
+        generator:
+          strategy: AUTO
+    fields:
+      uuid:
+        type: string
+        length: 36
+      username:
+        type: string
+        nullable: 255
+      password:
+        type: string
+        nullable: 255
+      created:
+        type: datetime
+        nullable: true
+      updated:
+        type: datetime
+        nullable: true

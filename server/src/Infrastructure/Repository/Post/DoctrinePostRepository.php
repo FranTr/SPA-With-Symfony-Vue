@@ -23,11 +23,6 @@ class DoctrinePostRepository extends ServiceEntityRepository implements PostRepo
         return $this->findAll();
     }
 
-    /**
-     * @param Post $post
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function save(Post $post)
     {
         $this->_em->persist($post);

@@ -1,6 +1,6 @@
 <?php
-
 namespace App\Domain\Post;
+
 use Carbon\Carbon;
 use DateTime;
 
