@@ -1,27 +1,30 @@
 App\Domain\User\User:
     type: entity
     table: user
-    repositoryClass: App\Infrastructure\Repository\User\DoctrineUserReadRepository
+    repositoryClass: App\Infrastructure\Repository\User\DoctrineUserRepository
     id:
-      id:
-        type: integer
-        length: 36
-        unique: true
-        generator:
-          strategy: AUTO
-    fields:
       uuid:
-        type: string
-        length: 36
+          type: string
+          length: 36
+          unique: true
+          generator:
+            strategy: NONE
+    fields:
       username:
         type: string
-        nullable: 255
+        length: 255
+        nullable: false
       password:
         type: string
-        nullable: 255
-      created:
+        length: 255
+        nullable: false
+      email:
+        type: string
+        length: 50
+        nullable: false
+      createdDate:
         type: datetime
         nullable: true
-      updated:
+      updatedDate:
         type: datetime
         nullable: true

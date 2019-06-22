@@ -41,13 +41,13 @@ services:
             - '@App\Infrastructure\DataTransformer\Post\JsonPostDataTransformer'
         tags: ['controller.service_arguments']
 
-    App\Infrastructure\Repository\User\DoctrineUserReadRepository:
+    App\Infrastructure\Repository\User\DoctrineUserRepository:
         arguments:
             - '@Symfony\Bridge\Doctrine\RegistryInterface'
 
     App\Application\User\QueryHandler\ReadUserQueryHandler:
         arguments:
-            - '@App\Infrastructure\Repository\User\DoctrineUserReadRepository'
+            - '@App\Infrastructure\Repository\User\DoctrineUserRepository'
 
     App\Application\User\Read\ReadUser:
         arguments:
@@ -58,3 +58,55 @@ services:
         arguments:
             - '@App\Application\User\Read\ReadUser'
         tags: ['controller.service_arguments']
+
+    App\Domain\User\UserFactory:
+        arguments:
+            - '@App\Infrastructure\Generator\UuidCodeGenerator'
+            - '@App\Infrastructure\Repository\User\DoctrineUserRepository'
+
+    App\Application\User\Create\CreateUser:
+        arguments:
+            - '@App\Domain\User\UserFactory'
+            - '@App\Infrastructure\Repository\User\DoctrineUserRepository'
+
+    App\Infrastructure\Controller\Users\SymfonyCreateUser:
+        arguments:
+            - '@App\Application\User\Create\CreateUser'
+        tags: ['controller.service_arguments']
+
+    App\Application\User\Delete\DeleteUser:
+        arguments:
+            - '@App\Infrastructure\Repository\User\DoctrineUserRepository'
+
+    App\Infrastructure\Controller\Users\SymfonyDeleteUser:
+        arguments:
+            - '@App\Application\User\Delete\DeleteUser'
+        tags: ['controller.service_arguments']
+
+    App\Application\User\Update\UpdateUser:
+        arguments:
+            - '@App\Infrastructure\Repository\User\DoctrineUserRepository'
+
+    App\Infrastructure\Controller\Users\SymfonyUpdateUser:
+        arguments:
+            - '@App\Application\User\Update\UpdateUser'
+        tags: ['controller.service_arguments']
+
+    App\Infrastructure\Repository\Muscle\DoctrineMuscleRepository:
+        arguments:
+            - '@Symfony\Bridge\Doctrine\RegistryInterface'
+
+    App\Domain\Muscle\MuscleFactory:
+        arguments:
+            - '@App\Infrastructure\Generator\UuidCodeGenerator'
+
+    App\Application\Muscle\Create\CreateMuscle:
+        arguments:
+            - '@App\Infrastructure\Repository\Muscle\DoctrineMuscleRepository'
+            - '@App\Domain\Muscle\MuscleFactory'
+
+    App\Infrastructure\Controller\Muscles\SymfonyImportMuscles:
+        arguments:
+            - '@App\Application\Muscle\Create\CreateMuscle'
+        tags: ['controller.service_arguments']
+

@@ -1,0 +1,18 @@
+App\Domain\Muscle\Muscle:
+  type: entity
+  table: muscle
+  repositoryClass: App\Infrastructure\Repository\Muscle\DoctrineMuscleRepository
+  id:
+    uuid:
+      type: string
+      length: 36
+      nullable: false
+      generator:
+        strategy: NONE
+  fields:
+    name:
+      type: string
+      length: 45
+      nullable: false
+      generator:
+        strategy: AUTO

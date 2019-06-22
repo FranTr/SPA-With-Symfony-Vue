@@ -3,13 +3,15 @@
 namespace App\Infrastructure\Controller\Users;
 
 use App\Application\User\Exceptions\UserInvalidCredentialsException;
+use App\Application\User\Exceptions\UserNotFoundException;
 use App\Application\User\Read\ReadUser;
+use Namshi\JOSE\JWT;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use UserNotFoundException;
 
-class SymfonyGetUser
+class SymfonyGetUser extends AbstractController
 {
     /** @var ReadUser */
     private $readUser;
@@ -20,7 +22,7 @@ class SymfonyGetUser
     }
 
     /**
-     * @Route ("/security/login", methods="POST")
+     * @Route ("/login", methods="POST")
      * @param Request $request
      * @return JsonResponse
      */
@@ -32,12 +34,20 @@ class SymfonyGetUser
                 $data['username'],
                 $data['password']
             );
-            return JsonResponse::fromJsonString(json_encode($user->getId()));
+                $encoder = new JWT(
+                    [
+                        'username' => $user->getUsername(),
+                        'exp' => time() + 1296000],
+                    [
+                        'alg' => 'HS256',
+                        'typ' => "JWT"
+                    ]
+                );
+                $token = $encoder->generateSigninInput();
+                return JsonResponse::fromJsonString('Bearer ' . json_encode($token));
         } catch (UserNotFoundException
                 | UserInvalidCredentialsException $exception) {
             return JsonResponse::fromJsonString($exception->getMessage(), $exception->getCode());
         }
-
-
     }
 }

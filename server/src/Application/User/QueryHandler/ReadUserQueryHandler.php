@@ -3,23 +3,23 @@
 namespace App\Application\User\QueryHandler;
 
 use App\Application\User\Query\ReadUserQuery;
-use App\Application\User\Repository\UserReadRepository;
+use App\Application\User\Repository\UserRepository;
 use App\Domain\User\User;
 
 class ReadUserQueryHandler
 {
     /**
-     * @var UserReadRepository
+     * @var UserRepository
      */
     private $userReadRepository;
 
-    public function __construct(UserReadRepository $userReadRepository)
+    public function __construct(UserRepository $userReadRepository)
     {
         $this->userReadRepository = $userReadRepository;
     }
 
     public function handle(ReadUserQuery $query): ?User
     {
-        return $this->userReadRepository->findOne($query->getUsername());
+        return $this->userReadRepository->findOneByUsername($query->getUsername());
     }
 }

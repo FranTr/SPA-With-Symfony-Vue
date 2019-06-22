@@ -27,7 +27,7 @@ services:
     image: thecodingmachine/php:7.2-v2-apache-node10
     labels:
       - traefik.enable=true
-      - traefik.frontend.rule=Host:app.localhost;PathPrefixStrip:/api/;
+      - traefik.frontend.rule=Host:app.localhost;PathPrefixStrip:/api/v2/;
     environment:
       PHP_MEMORY_LIMIT: 1G
       APACHE_DOCUMENT_ROOT: public/

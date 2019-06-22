@@ -6,7 +6,7 @@ use App\Application\User\Exceptions\UserInvalidCredentialsException;
 use App\Domain\User\User;
 use App\Application\User\Query\ReadUserQuery;
 use App\Application\User\QueryHandler\ReadUserQueryHandler;
-use UserNotFoundException;
+use App\Application\User\Exceptions\UserNotFoundException;
 
 class ReadUser
 {
@@ -31,7 +31,6 @@ class ReadUser
         $user = $this->readUserQueryHandler->handle($readUserQuery);
         $this->guardAgainstNonExistingUser($user);
         $this->guardAgainstInvalidCredentials($user->getPassword(), $password);
-
         return $user;
     }
 
@@ -59,7 +58,7 @@ class ReadUser
 
     public function guardAgainstInvalidCredentials(string $userPassword, string $password): void
     {
-        if(!$this->userEncoder->decode($userPassword) == $password) {
+        if($this->userEncoder->decode($userPassword) != $password) {
             throw new UserInvalidCredentialsException(
                 UserInvalidCredentialsException::INVALID_PASSWORD_MESSAGE,
                 UserInvalidCredentialsException::INVALID_PASSWORD_CODE

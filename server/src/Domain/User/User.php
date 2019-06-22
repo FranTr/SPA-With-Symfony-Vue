@@ -6,50 +6,82 @@ use Exception;
 
 class User
 {
-    /** @var int */
-    private $id;
+    private const DATE_FORMAT = 'Y-m-d H:i:s';
 
     /** @var string */
     private $uuid;
-
     /** @var string */
     private $username;
-
     /** @var string */
     private $password;
-
     /** @var array */
     private $roles;
-
     /** @var string */
-    private $created;
-
+    private $createdDate;
     /** @var string */
-    private $updated;
+    private $updatedDate;
+    /**
+     * @var string
+     */
+    private $email;
 
+    /**
+     * User constructor.
+     * @param string $uuid
+     * @param string $username
+     * @param string $password
+     * @param string $email
+     * @param array|null $roles
+     */
     public function __construct(
-        int $id,
         string $uuid,
         string $username,
         string $password,
-        array $roles = null,
-        string $created,
-        string $updated
+        string $email,
+        array $roles = null
     ) {
-        $this->id = $id;
-        $this->uuid = $uuid;
-        $this->username = $username;
-        $this->password = $password;
-        $this->roles = $roles;
-        $this->created = $created;
-        $this->updated = $updated;
+        $this->setUuid($uuid);
+        $this->setUsername($username);
+        $this->setPassword($password);
+        $this->setEmail($email);
+        $this->setRoles($roles);
+        $this->setCreatedDate();
     }
 
-    public function getId(): int
+    public function setEmail(string $email): void
     {
-        return $this->id;
+        $this->email = $email;
     }
 
+    public function setUuid(string $uuid): void
+    {
+        $this->uuid = $uuid;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function setCreatedDate(): void
+    {
+        $this->createdDate = new DateTime();
+    }
+
+    public function setUpdatedDate(string $updatedDate): void
+    {
+        $this->updatedDate = $updatedDate;
+    }
     public function getUuid(): string
     {
         return $this->uuid;
@@ -73,16 +105,17 @@ class User
     /**
      * @throws Exception
      */
-    public function getCreated(): DateTime
+    public function getCreatedDate(): DateTime
     {
-        return new DateTime($this->created);
+        return new DateTime($this->createdDate);
     }
 
     /**
      * @throws Exception
      */
-    public function getUpdated(): DateTime
+    public function getUpdatedDate(): DateTime
     {
-        return new DateTime($this->updated);
+        return new DateTime($this->updatedDate);
     }
+
 }
